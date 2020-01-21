@@ -1,4 +1,4 @@
-# TiOCRvision
+# Ti.OCRvision
 
 Axway Titanium module for OCR in preview camera.
 
