@@ -51,7 +51,20 @@ public class CameraSourcePreview extends ViewGroup {
         addView(mSurfaceView);
     }
 
-    @RequiresPermission(Manifest.permission.CAMERA)
+    /* added by schleera */
+    public CameraSourcePreview(Context context) {
+    	 super(context,null);
+         mContext = context;
+         mStartRequested = false;
+         mSurfaceAvailable = false;
+
+         mSurfaceView = new SurfaceView(context);
+         mSurfaceView.getHolder().addCallback(new SurfaceCallback());
+         addView(mSurfaceView);
+		
+	}
+
+	@RequiresPermission(Manifest.permission.CAMERA)
     public void start(CameraSource cameraSource) throws IOException, SecurityException {
         if (cameraSource == null) {
             stop();

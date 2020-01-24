@@ -127,6 +127,7 @@ public class GraphicOverlay<T extends GraphicOverlay.Graphic> extends View {
         super(context, attrs);
     }
 
+   
     /**
      * Removes all graphics from the overlay.
      */
@@ -175,6 +176,8 @@ public class GraphicOverlay<T extends GraphicOverlay.Graphic> extends View {
             return null;
         }
     }
+    
+    
 
     /**
      * Sets the camera attributes for size and facing direction, which informs how to transform

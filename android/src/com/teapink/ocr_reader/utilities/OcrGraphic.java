@@ -40,7 +40,7 @@ public class OcrGraphic extends GraphicOverlay.Graphic {
     private static Paint sTextPaint;
     private final TextBlock mText;
 
-    OcrGraphic(GraphicOverlay overlay, TextBlock text) {
+    public OcrGraphic(GraphicOverlay overlay, TextBlock text) {
         super(overlay);
 
         mText = text;
