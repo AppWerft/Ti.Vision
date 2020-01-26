@@ -30,14 +30,13 @@ import com.google.android.gms.vision.text.TextBlock;
 import com.teapink.ocr_reader.ui.camera.GraphicOverlay;
 import com.teapink.ocr_reader.utilities.OcrGraphic;
 
-import ti.vision.ViewProxy;
+import ti.vision.OcrViewProxy;
 import ti.vision.VisionModule;
-
 
 public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
 
 	private GraphicOverlay<OcrGraphic> graphicOverlay;
-	private KrollProxy proxy;
+	private OcrViewProxy proxy;
 	private String regex;
 	private static String LCAT = VisionModule.LCAT;
 
@@ -45,9 +44,8 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
 		graphicOverlay = ocrGraphicOverlay;
 	}
 
-	public OcrDetectorProcessor(ViewProxy proxy,GraphicOverlay<OcrGraphic> ocrGraphicOverlay) {
+	public OcrDetectorProcessor(OcrViewProxy proxy, GraphicOverlay<OcrGraphic> ocrGraphicOverlay) {
 		graphicOverlay = ocrGraphicOverlay;
-		Log.d(LCAT, "OcrDetectorProcessor created " + regex);
 		this.proxy = proxy;
 		this.regex = proxy.regex;
 	}
@@ -67,17 +65,19 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
 		for (int i = 0; i < items.size(); ++i) {
 			TextBlock item = items.valueAt(i);
 			String text = item.getValue();
-			Log.d(LCAT,"textblock: " + text);
 			if (regex == null || item.getValue().matches(regex)) {
 				OcrGraphic graphic = new OcrGraphic(graphicOverlay, item);
-				Log.d(LCAT,"filtered: " + text);
+				
 				graphicOverlay.add(graphic);
 				list.add(text);
-			}	
+			}
 		}
-		if (proxy.hasListeners("receivedetections")) {
+		if (proxy.hasListeners("receivedetections") && items.size() > 0) {
 			KrollDict res = new KrollDict();
-			proxy.fireEvent("receivedetections", res.put("detections", list.toArray()));
+			res.put("total", items.size());
+			res.put("detections", list.toArray());
+			res.put("receivedetections", list.toArray());
+			proxy.fireEvent("receivedetections", res);
 		}
 	}
 

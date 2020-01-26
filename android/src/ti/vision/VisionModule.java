@@ -9,6 +9,7 @@
 package ti.vision;
 
 import org.appcelerator.kroll.KrollModule;
+import android.hardware.Camera;
 import org.appcelerator.kroll.annotations.Kroll;
 import org.appcelerator.titanium.TiApplication;
 import android.app.Dialog;
@@ -42,6 +43,7 @@ public class VisionModule extends KrollModule {
 	
 	@Kroll.constant
 	public static final int CAMERA_FACING_FRONT = CameraSource.CAMERA_FACING_FRONT;
+	
 	@Kroll.constant 
 	public static final int GOOGLE_PLAY_SERVICES_VERSION_CODE = GoogleApiAvailability.GOOGLE_PLAY_SERVICES_VERSION_CODE;
 
@@ -92,7 +94,6 @@ public class VisionModule extends KrollModule {
 		if (!textRecognizer.isOperational()) {
 			IntentFilter lowstorageFilter = new IntentFilter(Intent.ACTION_DEVICE_STORAGE_LOW);
 			boolean hasLowStorage = context.registerReceiver(null, lowstorageFilter) != null;
-
 			if (hasLowStorage) {
 				return false;
 			}
